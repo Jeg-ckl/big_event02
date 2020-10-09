@@ -1,13 +1,18 @@
 getUserInfo();
 $(function() {
-    // 退出功能
-    $("#btn_tuichu").on('click', function() {
-        layer.confirm('确定要退出？', { icon: 3, title: '提示' }, function(index) {
+    var layer = layui.layer;
+    // 实现推出功能
+    $("#btn_tuichu").click(function() {
+        // 提示用户是否退出
+        layer.confirm('确定退出登录？', { icon: 3, title: '提示' }, function(index) {
             //do something
-            localStorage.removeItem('token')
-            location.href = './login.html'
+            // 1. 清空本地存储的token
+            localStorage.removeItem('token');
+            // 2.跳转到登录页面
+            location.href = './login.html';
             layer.close(index);
         });
+
     })
 })
 
@@ -24,7 +29,7 @@ function getUserInfo() {
             if (response.status !== 0) {
                 return layer.msg('获取用户信息失败！')
             }
-            randerAvatar(response.data, name);
+            randerAvatar(response.data);
         }
     });
 }
@@ -32,7 +37,7 @@ function getUserInfo() {
 /**
  * 渲染用户昵称和头像
  */
-function randerAvatar(user, name) {
+function randerAvatar(user) {
     // 渲染名称
     var name = user.nickname || user.username
     $('.uname').text(name);
